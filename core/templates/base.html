@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block page_tab_title %}Django E-Commerce default{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" href="{% static 'assets/bootstrap.min.css' %}" media="screen" />
+  <link rel="stylesheet" href="{% static 'assets/custom.min.css' %} " media="screen" />
+</head>
+<body>
+
+  <!-- Inicio menu superior -->
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="" class="navbar-brand">Django E-Commerce Daniel</a>
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar-main">
+        <ul class="nav navbar-nav">
+          <li>
+            <!-- Chamando dentro de url.py pela propriedade name da url -->
+            <a href="{% url 'index' %}">Início</a>
+          </li>
+          <li class="dropdown">
+            <!-- Chamando dentro de url.py pela propriedade name da url -->
+            <a class="dropdown-toggle" data-toggle="dropdown"
+            href="{% url 'catalog:product_list' %}" id="download">Categorias <span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="download">
+
+               <!--Nota: categories esta vindo do context_processors.py, onde é
+               setadado as variaveis que eu quero que fiquem ativas no contexto da aplicacao -->
+               <!--Nota2: catalog:product_list este 'catalog:' na frente da url é o namespace criado dentro de urls.py
+               para referenciar que esta usando uma view dentro do app catalog -->
+               <!--Nota3: slug=category.slug é o parametro que tenho que passar para a url, ver em
+                catalog/urls.py. Seria o mesmo que /produtos/design/ onde design é o slug-->
+              {% for category in categories %}
+                <!-- <li><a href="{% url 'catalog:category' slug=category.slug %}">{{category.name}}</a></li> -->
+                <li><a href="{{category.get_absolute_url}}">{{category.name}}</a></li>
+              {% endfor %}
+
+
+
+            </ul>
+          </li>
+          <li>
+            <!-- Chamando dentro de url.py pela propriedade name da url -->
+            <a href="{% url 'contact' %}">Contato</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Minha Conta</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Fim menu superior -->
+
+  <div class="container">
+    <!-- Inicio Conteudo -->
+    {% block container %}
+
+    {% endblock %}
+    <!-- Fim Conteudo -->
+    <!--Inicio footer -->
+    <footer>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-unstyled">
+            <li class="pull-right"><a href="#top">Voltar ao Topo</a></li>
+            <li><a href="">Início</a></li>
+            <li><a href="">Produtos</a></li>
+            <li><a href="">Contato</a></li>
+            <li><a href="">Termos e Privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <!--Fim footer -->
+  </div>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="{% static 'assets/bootstrap.min.js' %}"></script>
+</body>
+</html>
