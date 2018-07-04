@@ -22,12 +22,14 @@ from core.views import *
 urlpatterns = [
     # Com a propriedade name, podemos manter o nome sempre fixo nas chamadas dentro do html, mesmo que o arquivo relacionado mude.
     path('', index, name='index'),
-    path('contato/', contact, name='contact'),
-    
+    path('contato/', contact, name='contact'),    
+
     # Referenciando o urls.py do app catalog, o namespace ajuda caso tenha urls com o
     #mesmo nome em apps diferentes, ai dentro do html vai usa o namespace na frente da url
     #Ex: <a href="{% url 'catalog:product_list' %}"></a>
     path('catalogo/', include(('catalog.urls', 'catalog'), namespace='catalog')),
+
+    path('core/', include(('core.urls', 'core'), namespace='core')),
 
     path('admin/', admin.site.urls),
 ]

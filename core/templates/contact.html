@@ -1,38 +1,45 @@
 {% extends "base.html" %}
-
-{% block page_tab_title %}
-  Contato | {{ block.super }}
-{% endblock %}
-
+{% load widget_tweaks %}
+{% block page_tab_title %} Contato | {{ block.super }} {% endblock %}
 {% block container %}
 <div class="page-header">
   <h1>Fale conosco</h1>
-  <form class="form-horizontal">
+  {% if success %}
+  <div class="alert alert-success">
+    Mensagem enviada com sucesso!
+  </div>
+  {% endif %}
+
+  <form class="form-horizontal" action="" method="post">
+    {% csrf_token %}
     <fieldset>
-        <div class="form-group">
-          <label for="id_name" class="col-md-3 control-label">Nome</label>
-          <div class="col-md-9">
-            <input type="text" class="form-control" id="id_name" placeholder="Nome" />
-          </div>
+
+      {% for field in form %}
+      <!-- a tag has-error deixa os campos vermelhos -->
+      <div class="form-group{% if field.errors %} has-error {% endif %}">
+        <label for="{{ field.auto_id }}" class="col-md-3 control-label">{{ field.label }}</label>
+        <div class="col-md-9">
+
+          <!-- Renderizando o input utilizando a lib widget_tweaks, que tem o comando render_field,
+               permitindo que eu passe o class para o field do forms dentro do html, em vez de ter que passar isso
+               dentro do forms.py -->
+          <!-- <input type="text" class="form-control" id="id_name" placeholder="Nome" /> -->
+          {% render_field field class='form-control' %}
+
+          <!-- Verifica se tem erro e exibe o alerta -->
+          {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+          {% endfor %}
+
         </div>
+      </div>
+      {% endfor %}
+
       <div class="form-group">
-          <label for="id_email" class="col-md-3 control-label">E-mail</label>
-          <div class="col-md-9">
-            <input type="text" class="form-control" id="id_email" placeholder="E-mail" />
-          </div>
+        <div class="col-md-9 col-md-offset-3">
+          <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
-      <div class="form-group has-error">
-          <label for="id_message" class="col-md-3 control-label">Mensagem</label>
-          <div class="col-md-9">
-            <textarea class="form-control" rows="3" id="id_message"></textarea>
-        <span class="help-block">Este campo é obrigatório</span>
-          </div>
-        </div>
-      <div class="form-group">
-          <div class="col-md-9 col-md-offset-3">
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </div>
-        </div>
+      </div>
     </fieldset>
   </form>
 </div>
