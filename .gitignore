@@ -1,2 +1,4 @@
 .DS_Store
 venv/
+catalog/__pycache__/__init__.cpython-37.pyc
+*.pyc
