@@ -4,9 +4,25 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ContactForm
 from django.urls import reverse
+from django.views.generic import View, TemplateView
 
-def index(request):
-    return render(request, 'index.html')
+# def index(request):
+#     return render(request, 'index.html')
+
+#Criando a view em forma de classe e não em forma de funcao.
+# class IndexView(View):
+#
+#     def get(self, request):
+#         print('Index View Testeeeee')
+#         return render(request, 'index.html')
+#
+# index = IndexView.as_view() #transforma a classe em um objeto chamavel.
+
+#Nesta class-base view, o TemplateView é uma GenericView do Django que renderiza a view que está dentro de TemplateName
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+index = IndexView.as_view()
 
 def email_send_message(request):
     return render(request, 'email_send_message.html')
